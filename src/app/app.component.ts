@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
         'username': new FormControl(null, [Validators.required, this.forbiddenUsername.bind(this)]),
         'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmail)
       }),
-      'gender': new FormControl('male'),
+      'gender': new FormControl(),
       'hobbies': new FormArray([])
     });
 
@@ -28,6 +28,21 @@ export class AppComponent implements OnInit{
 
     this.signupForm.statusChanges.subscribe((status) => {
       console.log(status);
+    });
+
+    this.signupForm.setValue({
+      'userData': {
+        'username': 'Quy',
+        'email': 'lonelywolf@gmail.com'
+      },
+      'gender': 'male',
+      'hobbies': []
+    })
+
+    this.signupForm.patchValue({
+      'userData': {
+        'username': 'Bi'
+      }
     })
   }
 
@@ -38,6 +53,9 @@ export class AppComponent implements OnInit{
 
   onSubmit() {
     console.log(this.signupForm);
+    this.signupForm.reset({
+      'gender': 'male'
+    })
   }
 
   forbiddenUsername(control: FormControl): {[s: string]: boolean} {
